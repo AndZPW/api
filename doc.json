@@ -4,7 +4,7 @@
         "description": "This is the swagger specification for Market Marker API.",
         "title": "Market Marker API",
         "contact": {},
-        "version": "0.0.3"
+        "version": "0.0.5"
     },
     "host": "localhost:8080",
     "paths": {
@@ -1091,13 +1091,79 @@
                     }
                 }
             }
+        },
+        "/wallets/solana/{public_key}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Fetches the encrypted private key for a given Solana public key.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wallets"
+                ],
+                "summary": "Get private key by public key",
+                "operationId": "fetch-private-key-by-public-key",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Solana Public Key (Base58)",
+                        "name": "public_key",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.PrivateKey"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request (invalid public key)",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
         "apperrors.AppError": {
             "type": "object",
             "properties": {
-                "httpstatus": {
+                "http_status": {
                     "type": "integer"
                 },
                 "message": {
@@ -1120,34 +1186,44 @@
             "type": "object",
             "properties": {
                 "api_key": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "ZXc4Vb7N6mK5jH4gF3dS2aQ1wE9rT8yU"
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2025-10-01T03:12:20Z"
                 },
                 "exchange_account_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1234567890
                 },
                 "exchange_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "exchange_name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Binance"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1234567890
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "My Account"
                 },
                 "passphrase": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "dev_passphrase_!@#"
                 },
                 "secret_key": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "9f7e6d5c4b3a2910ffeeddccbbaa99887766554433221100aabbccddeeff0011"
                 },
                 "user_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1234567890
                 }
             }
         },
@@ -1255,10 +1331,12 @@
             "type": "object",
             "properties": {
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1234567890
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "Binance"
                 }
             }
         },
@@ -1284,20 +1362,20 @@
         "model.ImportWalletsReq": {
             "type": "object",
             "required": [
-                "project_ids",
-                "wallets"
+                "private_keys",
+                "project_ids"
             ],
             "properties": {
+                "private_keys": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
                 "project_ids": {
                     "type": "array",
                     "items": {
                         "type": "integer"
-                    }
-                },
-                "wallets": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
                     }
                 }
             }
@@ -1324,10 +1402,12 @@
             "type": "object",
             "properties": {
                 "balance": {
-                    "type": "number"
+                    "type": "number",
+                    "example": 100.294
                 },
                 "public_key": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "88888888SOL88888888SOL88888888SOL8888888"
                 },
                 "transactions": {
                     "type": "array",
@@ -1336,7 +1416,20 @@
                     }
                 },
                 "wallet_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1234567890
+                }
+            }
+        },
+        "model.PrivateKey": {
+            "type": "object",
+            "required": [
+                "private_key"
+            ],
+            "properties": {
+                "private_key": {
+                    "type": "string",
+                    "example": "55bjLUoWhf2dFWnGEeLzCBdf5AuuJgWwRh7HghN2LoimnmjWz3qNgmni64x6nM3uTWqRNAET2cwef9pz21Zv4C2S"
                 }
             }
         },
@@ -1344,16 +1437,20 @@
             "type": "object",
             "properties": {
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1234567890
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "My Project"
                 },
                 "user_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1234567890
                 },
                 "wallet_count": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 10
                 }
             }
         },
@@ -1361,22 +1458,28 @@
             "type": "object",
             "properties": {
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1234567890
                 },
                 "name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "My Project"
                 },
                 "total_balance_sol": {
-                    "type": "number"
+                    "type": "number",
+                    "example": 1000.294
                 },
                 "total_balance_usd": {
-                    "type": "number"
+                    "type": "number",
+                    "example": 2000294
                 },
                 "user_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1234567890
                 },
                 "wallet_count": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 10
                 },
                 "wallets": {
                     "type": "array",
@@ -1442,19 +1545,24 @@
             "type": "object",
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2025-10-01T03:12:20Z"
                 },
                 "email": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "email@example.com"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1234567890
                 },
                 "role_id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1
                 },
                 "updated_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2025-10-01T03:12:20Z"
                 }
             }
         },
@@ -1462,16 +1570,20 @@
             "type": "object",
             "properties": {
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2025-10-01T03:12:20Z"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1234567890
                 },
                 "private_key": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "55bjLUoWhf2dFWnGEeLzCBdf5AuuJgWwRh7HghN2LoimnmjWz3qNgmni64x6nM3uTWqRNAET2cwef9pz21Zv4C2S"
                 },
                 "public_key": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "88888888SOL88888888SOL88888888SOL8888888"
                 }
             }
         },
@@ -1479,30 +1591,41 @@
             "type": "object",
             "properties": {
                 "balance_sol": {
-                    "type": "number"
+                    "type": "number",
+                    "example": 100.294
                 },
                 "balance_usd": {
-                    "type": "number"
+                    "type": "number",
+                    "example": 200294
                 },
                 "created_at": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2025-10-01T03:12:20Z"
                 },
                 "id": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1234567890
                 },
                 "public_key": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "88888888SOL88888888SOL88888888SOL8888888"
                 }
             }
         },
         "solanarpc.WalletTransaction": {
             "type": "object",
             "properties": {
+                "amount": {
+                    "type": "number",
+                    "example": 100.294
+                },
                 "timestamp": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1651366400
                 },
                 "transaction": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "1234567890"
                 }
             }
         }
