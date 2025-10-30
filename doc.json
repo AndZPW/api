@@ -1,14 +1,20 @@
 {
     "swagger": "2.0",
     "info": {
+        "description": "This is the swagger specification for Market Marker API.",
         "title": "Market Marker API",
         "contact": {},
-        "version": "0.0.2"
+        "version": "0.0.3"
     },
     "host": "localhost:8080",
     "paths": {
         "/accounts": {
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Creates a new exchange account",
                 "consumes": [
                     "application/json"
@@ -22,6 +28,13 @@
                 "summary": "Create exchange account",
                 "operationId": "add-exchange-account",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "Payload to create an account",
                         "name": "account",
@@ -45,6 +58,12 @@
                             "$ref": "#/definitions/apperrors.AppError"
                         }
                     },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -58,7 +77,7 @@
             "post": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "description": "Refreshes the access and refresh token pair using an existing refresh token.",
@@ -69,6 +88,15 @@
                     "auth"
                 ],
                 "summary": "Refresh JWT tokens",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token (Refresh Token)",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Tokens successfully refreshed",
@@ -185,11 +213,6 @@
         },
         "/auth/sign-in-google": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "description": "Authenticates an existing user via a Google ID token and returns JWT tokens.",
                 "produces": [
                     "application/json"
@@ -198,6 +221,15 @@
                     "auth"
                 ],
                 "summary": "Sign in via Google",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token (Google ID Token)",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful sign-in. Returns a user object and JWT info",
@@ -280,22 +312,26 @@
         },
         "/auth/sign-up-google": {
             "post": {
-                "security": [
-                    {
-                        "ApiKeyAuth": []
-                    }
-                ],
                 "description": "Creates a new user based on a Google ID token.",
                 "tags": [
                     "auth"
                 ],
                 "summary": "Sign up via Google",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token (Google ID Token)",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "User successfully created"
                     },
                     "401": {
-                        "description": "Email not found in locals",
+                        "description": "Email not found in locals or invalid token",
                         "schema": {
                             "$ref": "#/definitions/apperrors.AppError"
                         }
@@ -309,109 +345,13 @@
                 }
             }
         },
-        "/deposits/solana": {
-            "post": {
-                "description": "Creates a new Solana deposit request",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "deposits"
-                ],
-                "summary": "Create Solana deposit",
-                "operationId": "deposit-solana",
-                "parameters": [
-                    {
-                        "description": "Deposit request payload",
-                        "name": "deposit",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.DepositSolanaReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "$ref": "#/definitions/model.Deposit"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/deposits/{id}/status": {
-            "get": {
-                "description": "Returns the current status of a deposit by its ID",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "deposits"
-                ],
-                "summary": "Get deposit status",
-                "operationId": "get-deposit-status",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Deposit ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.Deposit"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/apperrors.AppError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/apperrors.AppError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/apperrors.AppError"
-                        }
-                    }
-                }
-            }
-        },
         "/exchanges": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Returns all exchanges",
                 "produces": [
                     "application/json"
@@ -421,6 +361,15 @@
                 ],
                 "summary": "List exchanges",
                 "operationId": "get-exchanges",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -429,6 +378,12 @@
                             "items": {
                                 "$ref": "#/definitions/model.Exchange"
                             }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
                         }
                     },
                     "500": {
@@ -442,6 +397,11 @@
         },
         "/projects": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Returns all projects",
                 "produces": [
                     "application/json"
@@ -451,6 +411,15 @@
                 ],
                 "summary": "List projects",
                 "operationId": "get-projects",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -461,15 +430,26 @@
                             }
                         }
                     },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/apperrors.AppError"
                         }
                     }
                 }
             },
             "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Creates a new project",
                 "consumes": [
                     "application/json"
@@ -483,6 +463,13 @@
                 "summary": "Create project",
                 "operationId": "create-project",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "Create Project Request",
                         "name": "request",
@@ -506,6 +493,12 @@
                             "$ref": "#/definitions/apperrors.AppError"
                         }
                     },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -517,6 +510,11 @@
         },
         "/projects/{id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Returns a project by its ID",
                 "produces": [
                     "application/json"
@@ -527,6 +525,13 @@
                 "summary": "Get project by ID",
                 "operationId": "get-project-by-id",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "type": "integer",
                         "description": "Project ID",
@@ -545,31 +550,52 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/apperrors.AppError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/apperrors.AppError"
                         }
                     }
                 }
             },
             "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "Deletes a project by its ID",
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
                     "projects"
                 ],
                 "summary": "Delete project",
                 "operationId": "delete-project",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "type": "integer",
                         "description": "Project ID",
@@ -580,13 +606,16 @@
                 ],
                 "responses": {
                     "204": {
-                        "description": "No Content",
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/apperrors.AppError"
                         }
                     },
-                    "400": {
-                        "description": "Bad Request",
+                    "401": {
+                        "description": "Unauthorized",
                         "schema": {
                             "$ref": "#/definitions/apperrors.AppError"
                         }
@@ -606,11 +635,11 @@
                 }
             }
         },
-        "/user/": {
+        "/user": {
             "get": {
                 "security": [
                     {
-                        "ApiKeyAuth": []
+                        "BearerAuth": []
                     }
                 ],
                 "description": "Returns the profile data for the user authenticated via a JWT access token.",
@@ -621,6 +650,15 @@
                     "user"
                 ],
                 "summary": "Get current user info",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "User data",
@@ -643,9 +681,151 @@
                 }
             }
         },
+        "/wallets/solana/deposit": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Creates a new Solana deposit request",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "deposits"
+                ],
+                "summary": "Create Solana deposit",
+                "operationId": "deposit-solana",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Deposit request payload",
+                        "name": "deposit",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.DepositSolanaReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.Deposit"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    }
+                }
+            }
+        },
+        "/wallets/solana/deposit/{id}": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns the current status of a deposit by its ID",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "deposits"
+                ],
+                "summary": "Get deposit status",
+                "operationId": "get-deposit-status",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Deposit ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.Deposit"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    }
+                }
+            }
+        },
         "/wallets/solana/generate": {
             "post": {
-                "description": "Generates new Solana wallets",
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Generates a specified number of new Solana wallets and associates them with project IDs.",
                 "consumes": [
                     "application/json"
                 ],
@@ -658,6 +838,13 @@
                 "summary": "Generate Solana wallets",
                 "operationId": "generate-solana-wallets",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "Generation parameters",
                         "name": "request",
@@ -684,6 +871,150 @@
                             "$ref": "#/definitions/apperrors.AppError"
                         }
                     },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    }
+                }
+            }
+        },
+        "/wallets/solana/import": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Imports existing Solana wallets using a list of private keys.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wallets"
+                ],
+                "summary": "Import Solana wallets",
+                "operationId": "import-solana-wallets",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Import parameters with private keys",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.ImportWalletsReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Wallet"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    }
+                }
+            }
+        },
+        "/wallets/solana/import-file": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Imports Solana wallets from a text file (.txt) containing private keys (one key per line).",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "wallets"
+                ],
+                "summary": "Import Solana wallets from file",
+                "operationId": "import-solana-wallets-from-file",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "file",
+                        "description": "Text file with private keys (one per line)",
+                        "name": "file",
+                        "in": "formData",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "JSON array of project IDs to associate wallets with.",
+                        "name": "project_ids",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Wallet"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -695,7 +1026,12 @@
         },
         "/wallets/solana/monitor": {
             "post": {
-                "description": "Starts monitoring of provided Solana wallets or updates monitoring settings",
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Starts monitoring of provided Solana wallets or updates monitoring settings.\nThis endpoint allows adding wallets to the monitoring service to track their activity.",
                 "consumes": [
                     "application/json"
                 ],
@@ -708,6 +1044,13 @@
                 "summary": "Monitor Solana wallets",
                 "operationId": "monitor-solana-wallets",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "Monitoring parameters",
                         "name": "request",
@@ -734,6 +1077,12 @@
                             "$ref": "#/definitions/apperrors.AppError"
                         }
                     },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
@@ -748,14 +1097,7 @@
         "apperrors.AppError": {
             "type": "object",
             "properties": {
-                "baseError": {},
-                "fileErrOccurred": {
-                    "type": "string"
-                },
                 "httpstatus": {
-                    "type": "integer"
-                },
-                "lineErrOccurred": {
                     "type": "integer"
                 },
                 "message": {
@@ -803,6 +1145,9 @@
                 },
                 "secret_key": {
                     "type": "string"
+                },
+                "user_id": {
+                    "type": "integer"
                 }
             }
         },
@@ -921,8 +1266,7 @@
             "type": "object",
             "required": [
                 "count",
-                "project_ids",
-                "user_id"
+                "project_ids"
             ],
             "properties": {
                 "count": {
@@ -934,9 +1278,27 @@
                     "items": {
                         "type": "integer"
                     }
+                }
+            }
+        },
+        "model.ImportWalletsReq": {
+            "type": "object",
+            "required": [
+                "project_ids",
+                "wallets"
+            ],
+            "properties": {
+                "project_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    }
                 },
-                "user_id": {
-                    "type": "integer"
+                "wallets": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         },
@@ -1081,12 +1443,6 @@
                 },
                 "public_key": {
                     "type": "string"
-                },
-                "updated_at": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "type": "integer"
                 }
             }
         },
@@ -1100,6 +1456,14 @@
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BearerAuth": {
+            "description": "Type 'Bearer' followed by a space and JWT token.",
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
         }
     }
 }
