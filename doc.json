@@ -426,7 +426,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/model.Project"
+                                "$ref": "#/definitions/model.ProjectWithWalletsResponse"
                             }
                         }
                     },
@@ -544,7 +544,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Project"
+                            "$ref": "#/definitions/model.ProjectWithWalletsResponse"
                         }
                     },
                     "400": {
@@ -1357,6 +1357,35 @@
                 }
             }
         },
+        "model.ProjectWithWalletsResponse": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "total_balance_sol": {
+                    "type": "number"
+                },
+                "total_balance_usd": {
+                    "type": "number"
+                },
+                "user_id": {
+                    "type": "integer"
+                },
+                "wallet_count": {
+                    "type": "integer"
+                },
+                "wallets": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.WalletResponse"
+                    }
+                }
+            }
+        },
         "model.SendCode": {
             "type": "object",
             "properties": {
@@ -1440,6 +1469,26 @@
                 },
                 "private_key": {
                     "type": "string"
+                },
+                "public_key": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.WalletResponse": {
+            "type": "object",
+            "properties": {
+                "balance_sol": {
+                    "type": "number"
+                },
+                "balance_usd": {
+                    "type": "number"
+                },
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
                 },
                 "public_key": {
                     "type": "string"
