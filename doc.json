@@ -1092,22 +1092,22 @@
                 }
             }
         },
-        "/wallets/solana/{public_key}": {
+        "/wallets/solana/{id}": {
             "get": {
                 "security": [
                     {
                         "BearerAuth": []
                     }
                 ],
-                "description": "Fetches the encrypted private key for a given Solana public key.",
+                "description": "Fetches the private key for a given wallet ID.",
                 "produces": [
                     "application/json"
                 ],
                 "tags": [
                     "wallets"
                 ],
-                "summary": "Get private key by public key",
-                "operationId": "fetch-private-key-by-public-key",
+                "summary": "Get private key by wallet ID",
+                "operationId": "fetch-private-key-by-id",
                 "parameters": [
                     {
                         "type": "string",
@@ -1117,9 +1117,9 @@
                         "required": true
                     },
                     {
-                        "type": "string",
-                        "description": "Solana Public Key (Base58)",
-                        "name": "public_key",
+                        "type": "integer",
+                        "description": "Wallet ID",
+                        "name": "id",
                         "in": "path",
                         "required": true
                     }
