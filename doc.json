@@ -264,6 +264,59 @@
                 }
             }
         },
+        "/auth/sign-in-wallet": {
+            "post": {
+                "description": "Authenticates a user by verifying a signed message from their Solana wallet. If the user does not exist, a new one is created.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "auth"
+                ],
+                "summary": "Sign in or register with Solana wallet",
+                "operationId": "sign-in-with-wallet",
+                "parameters": [
+                    {
+                        "description": "Public key and signed message(public key) for verification",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.SolanaVerifyRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful sign-in or registration. Returns user data and JWT tokens",
+                        "schema": {
+                            "$ref": "#/definitions/model.SignInResp"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request (e.g., missing public key or signature)",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized (invalid wallet signature)",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    }
+                }
+            }
+        },
         "/auth/sign-up-email": {
             "post": {
                 "description": "Creates a new user by verifying an email and confirmation code.",
@@ -1541,6 +1594,21 @@
                 }
             }
         },
+        "model.SolanaVerifyRequest": {
+            "type": "object",
+            "required": [
+                "publicAddress",
+                "signedMessage"
+            ],
+            "properties": {
+                "publicAddress": {
+                    "type": "string"
+                },
+                "signedMessage": {
+                    "type": "string"
+                }
+            }
+        },
         "model.User": {
             "type": "object",
             "properties": {
@@ -1555,6 +1623,9 @@
                 "id": {
                     "type": "integer",
                     "example": 1234567890
+                },
+                "public_key": {
+                    "type": "string"
                 },
                 "role_id": {
                     "type": "integer",
