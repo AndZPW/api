@@ -4,11 +4,59 @@
         "description": "This is the swagger specification for Market Marker API.",
         "title": "Market Marker API",
         "contact": {},
-        "version": "0.0.5"
+        "version": "0.0.7"
     },
     "host": "localhost:8080",
     "paths": {
         "/accounts": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns all exchange accounts for the authenticated user.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "accounts"
+                ],
+                "summary": "Get all accounts",
+                "operationId": "get-accounts-by-user",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.AccountResponse"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    }
+                }
+            },
             "post": {
                 "security": [
                     {
@@ -60,6 +108,133 @@
                     },
                     "401": {
                         "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    }
+                }
+            }
+        },
+        "/accounts/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns a specific exchange account by its ID, for the authenticated user.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "accounts"
+                ],
+                "summary": "Get account by ID",
+                "operationId": "get-account-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.AccountResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request (invalid ID)",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Deletes a specific exchange account by its ID, for the authenticated user.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "accounts"
+                ],
+                "summary": "Delete account by ID",
+                "operationId": "delete-account-by-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "400": {
+                        "description": "Bad Request (invalid ID)",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
                         "schema": {
                             "$ref": "#/definitions/apperrors.AppError"
                         }
@@ -775,11 +950,193 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/model.Deposit"
+                            "$ref": "#/definitions/model.DepositResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    }
+                }
+            }
+        },
+        "/wallets/solana/deposit/history": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns the deposit history for the authenticated user.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "deposits"
+                ],
+                "summary": "Get deposit history",
+                "operationId": "get-deposit-history",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.DepositHistoryResponse"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    }
+                }
+            }
+        },
+        "/wallets/solana/deposit/history/{id}": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns the deposit history for a specific project ID, owned by the authenticated user.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "deposits"
+                ],
+                "summary": "Get deposit history by project ID",
+                "operationId": "get-deposit-history-by-project-id",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Project ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.DepositHistoryResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request (invalid ID)",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    }
+                }
+            }
+        },
+        "/wallets/solana/deposit/process/{id}": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Processes a previously created deposit order by its ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "deposits"
+                ],
+                "summary": "Process a deposit order",
+                "operationId": "process-deposit-order",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "Deposit Order ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Accepted",
+                        "schema": {
+                            "$ref": "#/definitions/model.DepositProcessResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request (invalid ID)",
                         "schema": {
                             "$ref": "#/definitions/apperrors.AppError"
                         }
@@ -1242,6 +1599,10 @@
                     "type": "string",
                     "example": "ZXc4Vb7N6mK5jH4gF3dS2aQ1wE9rT8yU"
                 },
+                "api_name": {
+                    "type": "string",
+                    "example": "kucoin"
+                },
                 "created_at": {
                     "type": "string",
                     "example": "2025-10-01T03:12:20Z"
@@ -1274,9 +1635,54 @@
                     "type": "string",
                     "example": "9f7e6d5c4b3a2910ffeeddccbbaa99887766554433221100aabbccddeeff0011"
                 },
+                "status": {
+                    "type": "string",
+                    "example": "active"
+                },
                 "user_id": {
                     "type": "integer",
                     "example": 1234567890
+                }
+            }
+        },
+        "model.AccountResponse": {
+            "type": "object",
+            "properties": {
+                "account_id": {
+                    "type": "integer",
+                    "example": 1234567890
+                },
+                "api_name": {
+                    "type": "string",
+                    "example": "kucoin"
+                },
+                "created_at": {
+                    "type": "string",
+                    "example": "2025-10-01T03:12:20Z"
+                },
+                "exchange": {
+                    "type": "string",
+                    "example": "Binance"
+                },
+                "id": {
+                    "type": "integer",
+                    "example": 1234567890
+                },
+                "name": {
+                    "type": "string",
+                    "example": "My Account"
+                },
+                "status": {
+                    "type": "string",
+                    "example": "active"
+                },
+                "total_deposits_sol": {
+                    "type": "number",
+                    "example": 1000.294
+                },
+                "total_deposits_usd": {
+                    "type": "number",
+                    "example": 2000294
                 }
             }
         },
@@ -1336,6 +1742,9 @@
                 "status": {
                     "$ref": "#/definitions/model.DepositStatus"
                 },
+                "transaction_id": {
+                    "type": "string"
+                },
                 "updated_at": {
                     "type": "string"
                 },
@@ -1344,11 +1753,69 @@
                 }
             }
         },
+        "model.DepositHistoryResponse": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "project_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "total_sum_sol": {
+                    "type": "number"
+                },
+                "transactions": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Transaction"
+                    }
+                }
+            }
+        },
+        "model.DepositProcessResponse": {
+            "type": "object",
+            "properties": {
+                "order_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "$ref": "#/definitions/model.DepositStatus"
+                }
+            }
+        },
+        "model.DepositResponse": {
+            "type": "object",
+            "properties": {
+                "amount": {
+                    "type": "number"
+                },
+                "fee": {
+                    "type": "number"
+                },
+                "order_id": {
+                    "type": "integer"
+                },
+                "status": {
+                    "$ref": "#/definitions/model.DepositStatus"
+                }
+            }
+        },
         "model.DepositSolanaReq": {
             "type": "object",
             "required": [
                 "account_id",
-                "amount"
+                "amount",
+                "quantity"
             ],
             "properties": {
                 "account_id": {
@@ -1357,11 +1824,11 @@
                 "amount": {
                     "type": "number"
                 },
-                "wallets": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
+                "project_id": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "integer"
                 }
             }
         },
@@ -1371,13 +1838,13 @@
                 "PENDING",
                 "COMPLETED",
                 "FAILED",
-                "PARTIAL"
+                "AWAITING_APPROVAL"
             ],
             "x-enum-varnames": [
                 "DepositPending",
                 "DepositCompleted",
                 "DepositFailed",
-                "DepositOrderPartial"
+                "DepositAwaitingApproval"
             ]
         },
         "model.Exchange": {
@@ -1605,6 +2072,26 @@
                     "type": "string"
                 },
                 "signedMessage": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Transaction": {
+            "type": "object",
+            "properties": {
+                "balance_sol": {
+                    "type": "number"
+                },
+                "public_key": {
+                    "type": "string"
+                },
+                "status": {
+                    "$ref": "#/definitions/model.DepositStatus"
+                },
+                "sum_sol": {
+                    "type": "number"
+                },
+                "transaction_id": {
                     "type": "string"
                 }
             }
