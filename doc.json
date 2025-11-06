@@ -1769,7 +1769,7 @@
                     "type": "integer"
                 },
                 "status": {
-                    "type": "string"
+                    "$ref": "#/definitions/model.DepositStatus"
                 },
                 "total_sum_sol": {
                     "type": "number"
