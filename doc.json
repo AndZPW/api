@@ -4,7 +4,7 @@
         "description": "This is the swagger specification for Market Marker API.",
         "title": "Market Marker API",
         "contact": {},
-        "version": "0.0.10"
+        "version": "0.0.11"
     },
     "host": "localhost:8080",
     "paths": {
@@ -573,70 +573,6 @@
                 }
             }
         },
-        "/campaign/{id}/transactions": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Returns a list of transactions associated with a specific campaign.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "campaigns"
-                ],
-                "summary": "Get campaign transactions",
-                "operationId": "get-campaign-transactions",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Authentication token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "format": "uuid",
-                        "description": "Campaign UUID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/model.SwapTransaction"
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request (invalid UUID)",
-                        "schema": {
-                            "$ref": "#/definitions/apperrors.AppError"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/apperrors.AppError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/apperrors.AppError"
-                        }
-                    }
-                }
-            }
-        },
         "/campaigns": {
             "get": {
                 "security": [
@@ -669,6 +605,56 @@
                             "type": "array",
                             "items": {
                                 "$ref": "#/definitions/model.SwapCampaign"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    }
+                }
+            }
+        },
+        "/campaigns/summary": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns a statistical summary of all campaigns for the authenticated user (e.g., total spent, active count).",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "campaigns"
+                ],
+                "summary": "Get campaigns summary",
+                "operationId": "get-campaigns-summary",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Campaigns summary data",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.CampaignSummary"
                             }
                         }
                     },
@@ -813,6 +799,70 @@
                 }
             }
         },
+        "/campaigns/{id}/transactions": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns a list of transactions associated with a specific campaign.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "campaigns"
+                ],
+                "summary": "Get campaign transactions",
+                "operationId": "get-campaign-transactions",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "format": "uuid",
+                        "description": "Campaign UUID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.SwapTransaction"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request (invalid UUID)",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    }
+                }
+            }
+        },
         "/exchanges": {
             "get": {
                 "security": [
@@ -846,53 +896,6 @@
                             "items": {
                                 "$ref": "#/definitions/model.Exchange"
                             }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "$ref": "#/definitions/apperrors.AppError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/apperrors.AppError"
-                        }
-                    }
-                }
-            }
-        },
-        "/jito/tip-floor": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "description": "Returns the current tip floor information from Jito.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "jito"
-                ],
-                "summary": "Get Jito tip floor",
-                "operationId": "get-jito-tip-floor",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Authentication token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Tip floor data",
-                        "schema": {
-                            "$ref": "#/definitions/jito.GetTipFloorResponse"
                         }
                     },
                     "401": {
@@ -1150,6 +1153,71 @@
                 }
             }
         },
+        "/raydium/estimate": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Estimates the cost and impact of a Raydium pull operation.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "raydium"
+                ],
+                "summary": "Estimate Raydium Pull",
+                "operationId": "raydium-estimate-pull",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "Estimate parameters",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.EstimatePullRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Estimation Result",
+                        "schema": {
+                            "$ref": "#/definitions/model.TargetPullEstimateResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    }
+                }
+            }
+        },
         "/raydium/pull-down": {
             "post": {
                 "security": [
@@ -1263,6 +1331,53 @@
                         "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/apperrors.AppError"
+                        }
+                    }
+                }
+            }
+        },
+        "/raydium/tip-floor": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "Returns the current tip floor information from Jito.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "raydium"
+                ],
+                "summary": "Get Jito tip floor",
+                "operationId": "get-jito-tip-floor",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authentication token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Tip floor data",
+                        "schema": {
+                            "$ref": "#/definitions/model.TipFloorSOL"
                         }
                     },
                     "401": {
@@ -2059,24 +2174,6 @@
                 }
             }
         },
-        "jito.GetTipFloorResponse": {
-            "type": "object",
-            "properties": {
-
-                "default": {
-                    "type": "number"
-                },
-                "fast": {
-                    "type": "number"
-                },
-                "extra": {
-                    "type": "number"
-                },
-                "time": {
-                    "type": "string"
-                }
-            }
-        },
         "model.Account": {
             "type": "object",
             "properties": {
@@ -2206,12 +2303,29 @@
                 }
             }
         },
+        "model.CampaignSummary": {
+            "type": "object",
+            "properties": {
+                "budget": {
+                    "type": "number"
+                },
+                "campaign_id": {
+                    "type": "string"
+                },
+                "spent_budget": {
+                    "type": "number"
+                },
+                "status": {
+                    "type": "string"
+                },
+                "token_mint": {
+                    "type": "string"
+                }
+            }
+        },
         "model.CampaignType": {
             "type": "object",
             "properties": {
-                "id": {
-                    "type": "integer"
-                },
                 "name": {
                     "type": "string"
                 }
@@ -2392,6 +2506,26 @@
                 "DepositFailed",
                 "DepositAwaitingApproval"
             ]
+        },
+        "model.EstimatePullRequest": {
+            "type": "object",
+            "properties": {
+                "budget": {
+                    "type": "number"
+                },
+                "dest_token_mint": {
+                    "type": "string"
+                },
+                "project_id": {
+                    "type": "integer"
+                },
+                "slippage": {
+                    "type": "number"
+                },
+                "transaction_speed": {
+                    "type": "string"
+                }
+            }
         },
         "model.Exchange": {
             "type": "object",
@@ -2654,6 +2788,9 @@
                 "created_at": {
                     "type": "string"
                 },
+                "current_price": {
+                    "type": "number"
+                },
                 "goal_price": {
                     "type": "number"
                 },
@@ -2663,13 +2800,13 @@
                 "max_time_between_transactions": {
                     "type": "integer"
                 },
-                "max_transactions_amount": {
+                "max_transactions_budget": {
                     "type": "number"
                 },
                 "min_time_between_transactions": {
                     "type": "integer"
                 },
-                "min_transactions_amount": {
+                "min_transactions_budget": {
                     "type": "number"
                 },
                 "parallel_transactions_amount": {
@@ -2742,9 +2879,6 @@
         "model.SwapTransactionStatus": {
             "type": "object",
             "properties": {
-                "id": {
-                    "type": "integer"
-                },
                 "message": {
                     "type": "string"
                 },
@@ -2755,7 +2889,7 @@
         },
         "model.TargetPullDownRequest": {
             "type": "object",
-          "properties": {
+            "properties": {
             "source_token_mint": {
               "type": "string",
               "description": "Solana Public Key"
@@ -2803,7 +2937,7 @@
             }
           }
         },
-        "model.TargetPullResponse": {
+        "model.TargetPullEstimateResponse": {
             "type": "object",
             "properties": {
                 "budgetSOL": {
@@ -2820,9 +2954,17 @@
                 }
             }
         },
+        "model.TargetPullResponse": {
+            "type": "object",
+            "properties": {
+                "campaignID": {
+                    "type": "string"
+                }
+            }
+        },
         "model.TargetPullUpRequest": {
             "type": "object",
-          "properties": {
+            "properties": {
             "dest_token_mint": {
               "type": "string",
               "description": "Solana Public Key"
@@ -2869,6 +3011,23 @@
               "type": "string"
             }
           }
+        },
+        "model.TipFloorSOL": {
+            "type": "object",
+            "properties": {
+                "default": {
+                    "type": "number",
+                    "example": 0.000005
+                },
+                "extra": {
+                    "type": "number",
+                    "example": 0.0002
+                },
+                "fast": {
+                    "type": "number",
+                    "example": 0.00001
+                }
+            }
         },
         "model.Transaction": {
             "type": "object",
