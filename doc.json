@@ -2350,11 +2350,11 @@
               "type": "integer",
               "format": "int32"
             },
-            "min_transactions_amount": {
+            "min_transactions_budget": {
               "type": "number",
               "format": "double"
             },
-            "max_transactions_amount": {
+            "max_transactions_budget": {
               "type": "number",
               "format": "double"
             },
@@ -2914,11 +2914,11 @@
               "type": "integer",
               "format": "int32"
             },
-            "min_transactions_amount": {
+            "min_transactions_budget": {
               "type": "number",
               "format": "double"
             },
-            "max_transactions_amount": {
+            "max_transactions_budget": {
               "type": "number",
               "format": "double"
             },
@@ -2989,11 +2989,11 @@
               "type": "integer",
               "format": "int32"
             },
-            "min_transactions_amount": {
+            "min_transactions_budget": {
               "type": "number",
               "format": "double"
             },
-            "max_transactions_amount": {
+            "max_transactions_budget": {
               "type": "number",
               "format": "double"
             },
