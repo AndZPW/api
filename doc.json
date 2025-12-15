@@ -1348,7 +1348,7 @@
                 }
             }
         },
-        "/raydium/tip-floor": {
+        "/jito/tip-floor": {
             "get": {
                 "security": [
                     {
@@ -1360,7 +1360,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "raydium"
+                    "jito"
                 ],
                 "summary": "Get Jito tip floor",
                 "operationId": "get-jito-tip-floor",
