@@ -455,7 +455,7 @@
                 "operationId": "sign-in-with-wallet",
                 "parameters": [
                     {
-                        "description": "Public key and signed message(public key) for verification",
+                        "description": "Public key and signed message(base64) for verification",
                         "name": "request",
                         "in": "body",
                         "required": true,
