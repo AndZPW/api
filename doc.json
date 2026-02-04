@@ -1857,11 +1857,12 @@
             "required": true
           },
           {
-            "type": "array",
-            "description": "JSON array of project IDs to associate wallets with.",
+            "type": "string",
+            "description": "JSON array of project IDs",
             "name": "project_ids",
             "in": "formData",
-            "required": true
+            "required": true,
+            "example": "[25]"
           }
         ],
         "responses": {
