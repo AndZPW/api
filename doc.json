@@ -4,7 +4,7 @@
     "description": "This is the swagger specification for Market Marker API.",
     "title": "Market Marker API",
     "contact": {},
-    "version": "0.0.13"
+    "version": "0.0.14"
   },
   "host": "api-stage.marketmakingtools.com",
   "schemes": [
@@ -224,9 +224,13 @@
     },
     "/auth/refresh": {
       "post": {
-        "security": [
+        "parameters": [
           {
-            "BearerAuth": []
+            "type": "string",
+            "description": "Refresh token",
+            "name": "Refresh-Token",
+            "in": "header",
+            "required": true
           }
         ],
         "description": "Refreshes the access and refresh token pair using an existing refresh token.",
@@ -480,7 +484,10 @@
         ],
         "responses": {
           "200": {
-            "description": "User successfully created"
+            "description": "User successfully created",
+            "schema": {
+              "$ref": "#/definitions/model.SignInResp"
+            }
           },
           "400": {
             "description": "Bad Request",
@@ -521,7 +528,10 @@
         ],
         "responses": {
           "200": {
-            "description": "User successfully created"
+            "description": "User successfully created",
+            "schema": {
+              "$ref": "#/definitions/model.SignInResp"
+            }
           },
           "401": {
             "description": "Email not found in locals or invalid token",
@@ -2212,7 +2222,7 @@
         "slippage": {
           "type": "number",
           "format": "double",
-          "example": 0.5
+          "example": 0.05
         },
         "goal_percentage_change": {
           "type": "number",
@@ -2247,8 +2257,7 @@
           "example": 5000000000
         },
         "transaction_speed": {
-          "type": "string",
-          "example": "FAST"
+          "$ref": "#/definitions/model.TransactionSpeed"
         }
       }
     },
@@ -2770,9 +2779,9 @@
           "type": "integer",
           "example": 10
         },
-        "slippage": {
+        "slippageBPS": {
           "type": "integer",
-          "example": 1
+          "example": 100
         },
         "started_price": {
           "type": "number",
@@ -2783,8 +2792,7 @@
           "example": "RUNNING"
         },
         "transaction_speed": {
-          "type": "string",
-          "example": "FAST"
+          "$ref": "#/definitions/model.TransactionSpeed"
         },
         "type": {
           "$ref": "#/definitions/model.CampaignType"
@@ -2877,12 +2885,12 @@
         "slippage": {
           "type": "number",
           "format": "double",
-          "example": 0.5
+          "example": 0.05
         },
         "goal_percentage_change": {
           "type": "number",
           "format": "double",
-          "example": -10.0
+          "example": 10.0
         },
         "parallel_transactions_amount": {
           "type": "integer",
@@ -2912,8 +2920,7 @@
           "example": 3000000000
         },
         "transaction_speed": {
-          "type": "string",
-          "example": "FAST"
+          "$ref": "#/definitions/model.TransactionSpeed"
         }
       }
     },
@@ -2967,12 +2974,12 @@
         "slippage": {
           "type": "number",
           "format": "double",
-          "example": 0.5
+          "example": 0.05
         },
         "goal_percentage_change": {
           "type": "number",
           "format": "double",
-          "example": 10.0
+          "example": 1.0
         },
         "parallel_transactions_amount": {
           "type": "integer",
@@ -3002,8 +3009,7 @@
           "example": 3000000000
         },
         "transaction_speed": {
-          "type": "string",
-          "example": "FAST"
+          "$ref": "#/definitions/model.TransactionSpeed"
         }
       }
     },
@@ -3014,13 +3020,13 @@
           "type": "number",
           "example": 0.000005
         },
-        "extra": {
-          "type": "number",
-          "example": 0.0002
-        },
         "fast": {
           "type": "number",
           "example": 0.00001
+        },
+        "extra": {
+          "type": "number",
+          "example": 0.0002
         }
       }
     },
@@ -3181,6 +3187,15 @@
           "example": "1234567890"
         }
       }
+    },
+    "model.TransactionSpeed": {
+      "type": "string",
+      "enum": [
+        "default",
+        "fast",
+        "extra"
+      ],
+      "example": "default"
     }
   },
   "securityDefinitions": {
