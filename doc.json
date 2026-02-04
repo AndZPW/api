@@ -4,7 +4,7 @@
     "description": "This is the swagger specification for Market Marker API.",
     "title": "Market Marker API",
     "contact": {},
-    "version": "0.0.12"
+    "version": "0.0.13"
   },
   "host": "api-stage.marketmakingtools.com",
   "schemes": [
@@ -28,15 +28,6 @@
         ],
         "summary": "Get all accounts",
         "operationId": "get-accounts-by-user",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -80,13 +71,6 @@
         "summary": "Create exchange account",
         "operationId": "add-exchange-account",
         "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
           {
             "description": "Payload to create an account",
             "name": "account",
@@ -142,13 +126,6 @@
         "summary": "Get account by ID",
         "operationId": "get-account-by-id",
         "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
           {
             "type": "integer",
             "description": "Account ID",
@@ -207,13 +184,6 @@
         "operationId": "delete-account-by-id",
         "parameters": [
           {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
-          {
             "type": "integer",
             "description": "Account ID",
             "name": "id",
@@ -267,15 +237,6 @@
           "auth"
         ],
         "summary": "Refresh JWT tokens",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token (Refresh Token)",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "Tokens successfully refreshed",
@@ -593,15 +554,6 @@
         ],
         "summary": "List campaigns",
         "operationId": "get-campaigns",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -643,15 +595,6 @@
         ],
         "summary": "Get campaigns summary",
         "operationId": "get-campaigns-summary",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "Campaigns summary data",
@@ -697,13 +640,6 @@
         "summary": "Update campaign",
         "operationId": "update-campaign",
         "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
           {
             "type": "string",
             "format": "uuid",
@@ -764,13 +700,6 @@
         "parameters": [
           {
             "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
-          {
-            "type": "string",
             "format": "uuid",
             "description": "Campaign UUID",
             "name": "id",
@@ -820,13 +749,6 @@
         "summary": "Get campaign transactions",
         "operationId": "get-campaign-transactions",
         "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
           {
             "type": "string",
             "format": "uuid",
@@ -883,15 +805,6 @@
         ],
         "summary": "List exchanges",
         "operationId": "get-exchanges",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -933,15 +846,6 @@
         ],
         "summary": "List projects",
         "operationId": "get-projects",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -985,13 +889,6 @@
         "summary": "Create project",
         "operationId": "create-project",
         "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
           {
             "description": "Create Project Request",
             "name": "request",
@@ -1047,13 +944,6 @@
         "summary": "Get project by ID",
         "operationId": "get-project-by-id",
         "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
           {
             "type": "integer",
             "description": "Project ID",
@@ -1111,13 +1001,6 @@
         "summary": "Delete project",
         "operationId": "delete-project",
         "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
           {
             "type": "integer",
             "description": "Project ID",
@@ -1178,13 +1061,6 @@
         "operationId": "raydium-estimate-pull",
         "parameters": [
           {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
-          {
             "description": "Estimate parameters",
             "name": "request",
             "in": "body",
@@ -1242,13 +1118,6 @@
         "summary": "Create Pull Down campaign (Raydium)",
         "operationId": "raydium-target-pull-down",
         "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
           {
             "description": "Pull Down parameters",
             "name": "request",
@@ -1308,13 +1177,6 @@
         "operationId": "raydium-target-pull-up",
         "parameters": [
           {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
-          {
             "description": "Pull Up parameters",
             "name": "request",
             "in": "body",
@@ -1368,15 +1230,6 @@
         ],
         "summary": "Get Jito tip floor",
         "operationId": "get-jito-tip-floor",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "Tip floor data",
@@ -1414,15 +1267,6 @@
           "user"
         ],
         "summary": "Get current user info",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "User data",
@@ -1438,6 +1282,94 @@
           },
           "404": {
             "description": "User not found",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          }
+        }
+      },
+      "delete": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Deletes the authenticated user (Debug function).",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "summary": "Debug delete user",
+        "operationId": "debug-delete-user",
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          }
+        }
+      }
+    },
+    "/user/email": {
+      "patch": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Updates the email address of the authenticated user. Requires a valid confirmation code sent to the new email.",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "user"
+        ],
+        "summary": "Update user email",
+        "operationId": "update-user-email",
+        "parameters": [
+          {
+            "description": "New email and verification code",
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/model.ChangeEmailRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Invalid request data or email format",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized or invalid verification code",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
             "schema": {
               "$ref": "#/definitions/apperrors.AppError"
             }
@@ -1461,15 +1393,6 @@
         ],
         "summary": "Get user action history",
         "operationId": "get-user-history",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "User action history",
@@ -1515,13 +1438,6 @@
         "summary": "Create Solana deposit",
         "operationId": "deposit-solana",
         "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
           {
             "description": "Deposit request payload",
             "name": "deposit",
@@ -1582,15 +1498,6 @@
         ],
         "summary": "Get deposit history",
         "operationId": "get-deposit-history",
-        "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          }
-        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -1633,13 +1540,6 @@
         "summary": "Get deposit history by project ID",
         "operationId": "get-deposit-history-by-project-id",
         "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
           {
             "type": "integer",
             "description": "Project ID",
@@ -1700,13 +1600,6 @@
         "operationId": "process-deposit-order",
         "parameters": [
           {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
-          {
             "type": "integer",
             "description": "Deposit Order ID",
             "name": "id",
@@ -1765,13 +1658,6 @@
         "summary": "Get deposit status",
         "operationId": "get-deposit-status",
         "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
           {
             "type": "integer",
             "description": "Deposit ID",
@@ -1835,13 +1721,6 @@
         "operationId": "generate-solana-wallets",
         "parameters": [
           {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
-          {
             "description": "Generation parameters",
             "name": "request",
             "in": "body",
@@ -1903,13 +1782,6 @@
         "operationId": "import-solana-wallets",
         "parameters": [
           {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
-          {
             "description": "Import parameters with private keys",
             "name": "request",
             "in": "body",
@@ -1967,13 +1839,6 @@
         "summary": "Import Solana wallets from file",
         "operationId": "import-solana-wallets-from-file",
         "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
           {
             "type": "file",
             "description": "Text file with private keys (one per line)",
@@ -2041,13 +1906,6 @@
         "operationId": "monitor-solana-wallets",
         "parameters": [
           {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
-          {
             "description": "Monitoring parameters",
             "name": "request",
             "in": "body",
@@ -2105,13 +1963,6 @@
         "summary": "Get private key by wallet ID",
         "operationId": "fetch-private-key-by-id",
         "parameters": [
-          {
-            "type": "string",
-            "description": "Authentication token",
-            "name": "Authorization",
-            "in": "header",
-            "required": true
-          },
           {
             "type": "integer",
             "description": "Wallet ID",
@@ -2398,6 +2249,23 @@
         "transaction_speed": {
           "type": "string",
           "example": "FAST"
+        }
+      }
+    },
+    "model.ChangeEmailRequest": {
+      "type": "object",
+      "required": [
+        "email",
+        "code"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "example": "123456"
+        },
+        "email": {
+          "type": "string",
+          "example": "newemail@example.com"
         }
       }
     },
