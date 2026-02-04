@@ -1857,7 +1857,7 @@
             "required": true
           },
           {
-            "type": "string",
+            "type": "array",
             "description": "JSON array of project IDs to associate wallets with.",
             "name": "project_ids",
             "in": "formData",
