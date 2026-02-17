@@ -4,7 +4,7 @@
     "description": "This is the swagger specification for Market Marker API.",
     "title": "Market Marker API",
     "contact": {},
-    "version": "0.0.15"
+    "version": "0.0.17"
   },
   "host": "api-stage.marketmakingtools.com",
   "schemes": [
@@ -228,7 +228,7 @@
           {
             "type": "string",
             "description": "Refresh token",
-            "name": "Refresh-Token",
+            "name": "Authorization",
             "in": "header",
             "required": true
           }
@@ -631,7 +631,7 @@
       }
     },
     "/campaigns/{id}": {
-      "put": {
+      "patch": {
         "security": [
           {
             "BearerAuth": []
@@ -847,7 +847,21 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns all projects",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Page number (optional)",
+            "name": "page",
+            "in": "query",
+          },
+          {
+            "type": "integer",
+            "description": "Page size (optional)",
+            "name": "pageSize",
+            "in": "query",
+          }
+        ],
+        "description": "Returns all projects. Page and pageSize are co-dependent optional fields: providing one requires providing the other.",
         "produces": [
           "application/json"
         ],
@@ -1500,7 +1514,21 @@
             "BearerAuth": []
           }
         ],
-        "description": "Returns the deposit history for the authenticated user.",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Page number (optional)",
+            "name": "page",
+            "in": "query",
+          },
+          {
+            "type": "integer",
+            "description": "Page size (optional)",
+            "name": "pageSize",
+            "in": "query",
+          }
+        ],
+        "description": "Returns the deposit history for the authenticated user. Page and pageSize are co-dependent optional fields: providing one requires providing the other.",
         "produces": [
           "application/json"
         ],
@@ -2219,42 +2247,50 @@
         "budget": {
           "type": "number",
           "format": "double",
+          "required": false,
           "example": 200.0
         },
         "slippage": {
           "type": "number",
           "format": "double",
+          "required": false,
           "example": 0.05
         },
         "goal_percentage_change": {
           "type": "number",
           "format": "double",
+          "required": false,
           "example": 10.0
         },
         "parallel_transactions_amount": {
           "type": "integer",
           "format": "int32",
+          "required": false,
           "example": 5
         },
         "min_transactions_budget": {
           "type": "number",
           "format": "double",
+          "required": false,
           "example": 0.1
         },
         "max_transactions_budget": {
           "type": "number",
           "format": "double",
+          "required": false,
           "example": 1.0
         },
         "min_time_between_transactions": {
           "type": "integer",
           "format": "int64",
+          "required": false,
           "description": "Duration in nanoseconds",
           "example": 1000000000
         },
         "max_time_between_transactions": {
           "type": "integer",
           "format": "int64",
+          "required": false,
           "description": "Duration in nanoseconds",
           "example": 5000000000
         },
@@ -3197,7 +3233,8 @@
         "fast",
         "extra"
       ],
-      "example": "default"
+      "example": "default",
+      "required": false
     }
   },
   "securityDefinitions": {
