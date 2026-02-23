@@ -4,7 +4,7 @@
     "description": "This is the swagger specification for Market Marker API.",
     "title": "Market Marker API",
     "contact": {},
-    "version": "0.0.17"
+    "version": "0.0.18"
   },
   "host": "api-stage.marketmakingtools.com",
   "schemes": [
@@ -859,6 +859,18 @@
             "description": "Page size (optional)",
             "name": "pageSize",
             "in": "query",
+          },
+          {
+            "type": "string",
+            "description": "SortBy (optional)",
+            "name": "sortBy",
+            "in": "query",
+          },
+          {
+            "type": "string",
+            "description": "SortOrder (optional)",
+            "name": "sortOrder",
+            "in": "query",
           }
         ],
         "description": "Returns all projects. Page and pageSize are co-dependent optional fields: providing one requires providing the other.",
@@ -1233,6 +1245,49 @@
             "description": "Internal Server Error",
             "schema": {
               "$ref": "#/definitions/apperrors.AppError"
+            }
+          }
+        }
+      }
+    },
+    "/ip": {
+      "get": {
+        "tags": [
+          "ip"
+        ],
+        "summary": "Get service public IP",
+        "description": "Returns the public IP address of the server.",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ip": {
+                      "type": "string",
+                      "example": "179.64.150.12"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string",
+                      "example": "public IP address is not available yet"
+                    }
+                  }
+                }
+              }
             }
           }
         }
@@ -2434,7 +2489,8 @@
       "type": "object",
       "required": [
         "account_id",
-        "amount",
+        "min_amount",
+        "max_amount",
         "quantity"
       ],
       "properties": {
@@ -2442,9 +2498,13 @@
           "type": "integer",
           "example": 123456
         },
-        "amount": {
+        "min_amount": {
           "type": "number",
-          "example": 1.5
+          "example": 0.5
+        },
+        "max_amount": {
+          "type": "number",
+          "example": 0.7
         },
         "project_id": {
           "type": "integer",
