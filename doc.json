@@ -4,7 +4,7 @@
     "description": "This is the swagger specification for Market Marker API.",
     "title": "Market Marker API",
     "contact": {},
-    "version": "0.0.20"
+    "version": "0.0.21"
   },
   "host": "api-stage.marketmakingtools.com",
   "schemes": [
@@ -1649,6 +1649,20 @@
         "security": [
           {
             "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "string",
+            "description": "From date (optional) ",
+            "name": "from",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "To date (optional)",
+            "name": "to",
+            "in": "query"
           }
         ],
         "description": "Returns a list of actions (history) for the authenticated user.",
