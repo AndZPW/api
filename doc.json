@@ -852,25 +852,25 @@
             "type": "integer",
             "description": "Page number (optional)",
             "name": "page",
-            "in": "query",
+            "in": "query"
           },
           {
             "type": "integer",
             "description": "Page size (optional)",
             "name": "pageSize",
-            "in": "query",
+            "in": "query"
           },
           {
             "type": "string",
             "description": "SortBy (optional)",
             "name": "sortBy",
-            "in": "query",
+            "in": "query"
           },
           {
             "type": "string",
             "description": "SortOrder (optional)",
             "name": "sortOrder",
-            "in": "query",
+            "in": "query"
           }
         ],
         "description": "Returns all projects. Page and pageSize are co-dependent optional fields: providing one requires providing the other.",
@@ -964,7 +964,7 @@
       }
     },
 
-    "/projects/mint-balance": {
+    "/mint-balance/projects": {
       "get": {
         "security": [
           {
@@ -1055,7 +1055,7 @@
         }
       }
     },
-    "/projects/cached/{id}": {
+    "/cached/projects/{id}": {
       "get": {
         "security": [
           {
@@ -1108,7 +1108,7 @@
         }
       }
     },
-    "/projects/without-wallets": {
+    "/without-wallets/projects": {
       "get": {
         "security": [
           {
@@ -1761,13 +1761,13 @@
             "type": "integer",
             "description": "Page number (optional)",
             "name": "page",
-            "in": "query",
+            "in": "query"
           },
           {
             "type": "integer",
             "description": "Page size (optional)",
             "name": "pageSize",
-            "in": "query",
+            "in": "query"
           }
         ],
         "description": "Returns the deposit history for the authenticated user. Page and pageSize are co-dependent optional fields: providing one requires providing the other.",
