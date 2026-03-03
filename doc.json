@@ -4,7 +4,7 @@
     "description": "This is the swagger specification for Market Marker API.",
     "title": "Market Marker API",
     "contact": {},
-    "version": "0.0.19"
+    "version": "0.0.20"
   },
   "host": "api-stage.marketmakingtools.com",
   "schemes": [
@@ -963,6 +963,193 @@
         }
       }
     },
+
+    "/projects/mint-balance": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Returns all projects with their minted balance. Query params 'page' and 'pageSize' are co-dependent. 'mint' is required.",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "projects"
+        ],
+        "summary": "List projects with minted balance",
+        "operationId": "get-projects-mint-balance",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "Mint address (base58 format)",
+            "name": "mint",
+            "in": "query",
+            "required": true
+          },
+          {
+            "type": "integer",
+            "description": "Page number",
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "description": "Page size",
+            "name": "pageSize",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "SortBy field. Default is 'id'.",
+            "name": "sortBy",
+            "in": "query",
+            "enum": [
+              "id",
+              "last_sync",
+              "balance"
+            ],
+            "default": "id"
+          },
+          {
+            "type": "string",
+            "description": "SortOrder direction. Default is 'asc'.",
+            "name": "sortOrder",
+            "in": "query",
+            "enum": [
+              "asc",
+              "desc"
+            ],
+            "default": "asc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/model.ProjectWithWalletsResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request (e.g., missing mint, invalid pagination, or invalid sort enums)",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          }
+        }
+      }
+    },
+    "/projects/cached/{id}": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Returns a cached project by its ID",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "projects"
+        ],
+        "summary": "Get cached project by ID",
+        "operationId": "get-cached-project-by-id",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Project ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/model.ProjectWithWalletsResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          }
+        }
+      }
+    },
+    "/projects/without-wallets": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Returns all projects without wallet details.",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "projects"
+        ],
+        "summary": "List projects without wallets",
+        "operationId": "get-projects-without-wallets",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/model.Project"
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          }
+        }
+      }
+    },
+
     "/projects/{id}": {
       "get": {
         "security": [
