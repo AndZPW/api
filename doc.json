@@ -2740,9 +2740,13 @@
           "type": "number",
           "example": 50.0
         },
-        "dest_token_mint": {
+        "source_token_mint": {
           "type": "string",
           "example": "So11111111111111111111111111111111111111112"
+        },
+        "dest_token_mint": {
+          "type": "string",
+          "example": "Es9vMFrzaCERmJfrF4H2FYD4KCoNkY11McCe8BenwNYB"
         },
         "project_id": {
           "type": "integer",
@@ -2754,7 +2758,7 @@
         },
         "transaction_speed": {
           "type": "string",
-          "example": "turbo"
+          "example": "default"
         }
       }
     },
