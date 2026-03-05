@@ -4,7 +4,7 @@
     "description": "This is the swagger specification for Market Marker API.",
     "title": "Market Marker API",
     "contact": {},
-    "version": "0.0.27"
+    "version": "0.0.28"
   },
   "host": "api-stage.marketmakingtools.com",
   "schemes": [
@@ -311,30 +311,27 @@
         }
       }
     },
-    "/auth/sign-in-send-code": {
+    "/auth/is-user-exists": {
       "post": {
-        "description": "Generates and sends a one-time code to the specified email address.",
+        "description": "Checks if a user with the specified email address exists.",
         "consumes": [
           "application/json"
         ],
         "tags": [
           "auth"
         ],
-        "summary": "Send confirmation code",
+        "summary": "Check if user exists",
         "parameters": [
           {
-            "description": "Send Code Request",
-            "name": "request",
-            "in": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/model.SendCode"
-            }
+            "type": "string",
+            "description": "Email address",
+            "name": "Email",
+            "in": "query"
           }
         ],
         "responses": {
           "200": {
-            "description": "Code sent successfully"
+            "description": "Returns true if the user exists, false otherwise"
           },
           "400": {
             "description": "Bad Request or invalid email format",
