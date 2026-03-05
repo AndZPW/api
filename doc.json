@@ -4,7 +4,7 @@
     "description": "This is the swagger specification for Market Marker API.",
     "title": "Market Marker API",
     "contact": {},
-    "version": "0.0.23"
+    "version": "0.0.24"
   },
   "host": "api-stage.marketmakingtools.com",
   "schemes": [
@@ -19,6 +19,20 @@
             "BearerAuth": []
           }
         ],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Page number (optional)",
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "description": "Page size (optional)",
+            "name": "pageSize",
+            "in": "query"
+          }
+        ]
         "description": "Returns all exchange accounts for the authenticated user.",
         "produces": [
           "application/json"
@@ -1662,6 +1676,18 @@
             "type": "string",
             "description": "To date (optional)",
             "name": "to",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "description": "Page number (optional)",
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "description": "Page size (optional)",
+            "name": "pageSize",
             "in": "query"
           }
         ],
