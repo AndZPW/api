@@ -32,7 +32,7 @@
             "name": "pageSize",
             "in": "query"
           }
-        ]
+        ],
         "description": "Returns all exchange accounts for the authenticated user.",
         "produces": [
           "application/json"
