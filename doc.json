@@ -4,7 +4,7 @@
     "description": "This is the swagger specification for Market Marker API.",
     "title": "Market Marker API",
     "contact": {},
-    "version": "0.0.25"
+    "version": "0.0.27"
   },
   "host": "api-stage.marketmakingtools.com",
   "schemes": [
@@ -298,6 +298,52 @@
           },
           "400": {
             "description": "Bad Request or invalid email format",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          }
+        }
+      }
+    },
+    "/auth/sign-in-send-code": {
+      "post": {
+        "description": "Generates and sends a one-time code to the specified email address.",
+        "consumes": [
+          "application/json"
+        ],
+        "tags": [
+          "auth"
+        ],
+        "summary": "Send confirmation code",
+        "parameters": [
+          {
+            "description": "Send Code Request",
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/model.SendCode"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Code sent successfully"
+          },
+          "400": {
+            "description": "Bad Request or invalid email format",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          },
+          "404": {
+            "description": "User with this email not found",
             "schema": {
               "$ref": "#/definitions/apperrors.AppError"
             }
@@ -1195,6 +1241,69 @@
             "schema": {
               "$ref": "#/definitions/model.ProjectWithWalletsResponse"
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          }
+        }
+      },
+      "put": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Update a project by its ID",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "projects"
+        ],
+        "summary": "Update project by ID",
+        "operationId": "update-project-by-id",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Project ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "description": "Update Project Request",
+            "name": "request",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/model.CreateProjectReq"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
           },
           "400": {
             "description": "Bad Request",
