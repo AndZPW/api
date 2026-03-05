@@ -4,7 +4,7 @@
     "description": "This is the swagger specification for Market Marker API.",
     "title": "Market Marker API",
     "contact": {},
-    "version": "0.0.28"
+    "version": "0.0.29"
   },
   "host": "api-stage.marketmakingtools.com",
   "schemes": [
@@ -312,7 +312,7 @@
       }
     },
     "/auth/is-user-exists": {
-      "post": {
+      "get": {
         "description": "Checks if a user with the specified email address exists.",
         "consumes": [
           "application/json"
