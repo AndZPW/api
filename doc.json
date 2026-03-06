@@ -4,7 +4,7 @@
     "description": "This is the swagger specification for Market Marker API.",
     "title": "Market Marker API",
     "contact": {},
-    "version": "0.0.30"
+    "version": "0.0.31"
   },
   "host": "api-stage.marketmakingtools.com",
   "schemes": [
@@ -691,6 +691,64 @@
       }
     },
     "/campaigns/{id}": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Returns a specific campaign by its UUID for the authenticated user.",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "campaigns"
+        ],
+        "summary": "Get campaign by ID",
+        "operationId": "get-campaign-by-id",
+        "parameters": [
+          {
+            "type": "string",
+            "format": "uuid",
+            "description": "Campaign UUID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/model.SwapCampaign"
+            }
+          },
+          "400": {
+            "description": "Bad Request (invalid UUID)",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          }
+        }
+      },
       "patch": {
         "security": [
           {
