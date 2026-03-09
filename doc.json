@@ -4,7 +4,7 @@
     "description": "This is the swagger specification for Market Marker API.",
     "title": "Market Marker API",
     "contact": {},
-    "version": "0.0.33"
+    "version": "0.0.35"
   },
   "host": "api-stage.marketmakingtools.com",
   "schemes": [
@@ -3373,6 +3373,11 @@
           "format": "int64",
           "example": 10
         },
+        "budget_percent": {
+          "type": "number",
+          "format": "double",
+          "example": 15.5
+        },
         "budget": {
           "type": "number",
           "format": "double",
@@ -3461,6 +3466,11 @@
           "type": "integer",
           "format": "int64",
           "example": 10
+        },
+        "budget_percent": {
+          "type": "number",
+          "format": "double",
+          "example": 15.5
         },
         "budget": {
           "type": "number",
