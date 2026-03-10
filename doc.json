@@ -4,7 +4,7 @@
     "description": "This is the swagger specification for Market Marker API.",
     "title": "Market Marker API",
     "contact": {},
-    "version": "0.0.35"
+    "version": "0.0.37"
   },
   "host": "api-stage.marketmakingtools.com",
   "schemes": [
@@ -654,6 +654,34 @@
         "security": [
           {
             "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Page number (optional)",
+            "name": "page",
+            "in": "query"
+          },
+          {
+            "type": "integer",
+            "description": "Page size (optional)",
+            "name": "pageSize",
+            "in": "query"
+          },
+          {
+            "type": "string",
+            "description": "status (optional)",
+            "name": "status",
+            "in": "query",
+            "enum": ["in_use", "done", "stop", ""]
+          },
+          {
+            "type": "string",
+            "description": "type (optional)",
+            "name": "type",
+            "in": "query",
+            "enum": ["pull_up", "pull_down", ""]
           }
         ],
         "description": "Returns a statistical summary of all campaigns for the authenticated user (e.g., total spent, active count).",
