@@ -4,7 +4,7 @@
     "description": "This is the swagger specification for Market Marker API.",
     "title": "Market Marker API",
     "contact": {},
-    "version": "0.0.37"
+    "version": "0.0.38"
   },
   "host": "api-stage.marketmakingtools.com",
   "schemes": [
@@ -1182,6 +1182,66 @@
           },
           "400": {
             "description": "Bad Request (e.g., missing mint, invalid pagination, or invalid sort enums)",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/apperrors.AppError"
+            }
+          }
+        }
+      }
+    },
+    "/mint-balance/projects/{id}": {
+      "get": {
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "description": "Returns project with their minted balance, 'mint' is required.",
+        "produces": [
+          "application/json"
+        ],
+        "tags": [
+          "projects"
+        ],
+        "summary": "Project by id with minted balance",
+        "operationId": "get-project-mint-balance",
+        "parameters": [
+          {
+            "type": "integer",
+            "description": "Project ID",
+            "name": "id",
+            "in": "path",
+            "required": true
+          },
+          {
+            "type": "string",
+            "description": "Mint address (base58 format)",
+            "name": "mint",
+            "in": "query",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/model.ProjectWithWalletsResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request (e.g., missing mint)",
             "schema": {
               "$ref": "#/definitions/apperrors.AppError"
             }
