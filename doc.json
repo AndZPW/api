@@ -4,7 +4,7 @@
     "description": "This is the swagger specification for Market Marker API.",
     "title": "Market Marker API",
     "contact": {},
-    "version": "0.0.41"
+    "version": "0.0.42"
   },
   "host": "api-stage.marketmakingtools.com",
   "schemes": [
@@ -2603,7 +2603,7 @@
         {
           "type": "integer",
           "description": "Project ID",
-          "name": "id",
+          "name": "projectID",
           "in": "query",
           "required": true
         }
