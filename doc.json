@@ -4,7 +4,7 @@
     "description": "This is the swagger specification for Market Marker API.",
     "title": "Market Marker API",
     "contact": {},
-    "version": "0.0.39"
+    "version": "0.0.41"
   },
   "host": "api-stage.marketmakingtools.com",
   "schemes": [
@@ -2581,8 +2581,65 @@
           }
         }
       }
+    },
+
+  "/wallets/solana": {
+    "get": {
+      "security": [
+        {
+          "BearerAuth": []
+        }
+      ],
+      "description": "Fetches the private key for a given wallet ID.",
+      "produces": [
+        "application/json"
+      ],
+      "tags": [
+        "wallets"
+      ],
+      "summary": "Get private keys by Project ID",
+      "operationId": "fetch-private-keys-by-project-id",
+      "parameters": [
+        {
+          "type": "integer",
+          "description": "Project ID",
+          "name": "id",
+          "in": "query",
+          "required": true
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "OK",
+          "schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/model.Wallet"
+            }
+          }
+        },
+        "400": {
+          "description": "Bad Request (invalid public key)",
+          "schema": {
+            "$ref": "#/definitions/apperrors.AppError"
+          }
+        },
+        "401": {
+          "description": "Unauthorized",
+          "schema": {
+            "$ref": "#/definitions/apperrors.AppError"
+          }
+        },
+        "500": {
+          "description": "Internal Server Error",
+          "schema": {
+            "$ref": "#/definitions/apperrors.AppError"
+          }
+        }
+      }
     }
-  },
+  }
+},
   "definitions": {
     "apperrors.AppError": {
       "type": "object",
